@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var argv = process.argv.slice(2);
 var fs = require('fs')
 var request = require('request');
@@ -24,9 +26,15 @@ var query = function(cookieString) {
     cookie = cookie.slice(0, cookie.indexOf(';'))
   })
     .pipe(fs.createWriteStream(tmpValiCodeName).on('close', function () {
-      cmd.get(`./fuzzythresh.sh ${tmpValiCodeName} ${tmpConvertValiCodeFile}`, function () {
+      cmd.get(`${__dirname}/fuzzythresh.sh ${tmpValiCodeName} ${tmpConvertValiCodeFile}`, function () {
         cmd.get(`tesseract ${tmpConvertValiCodeFile} ${tmpCaptchaSolution} -psm 8`, function () {
           fs.readFile(tmpCaptchaSolution + '.txt', 'utf8', function (err, valicode) {
+
+            // remove tmp files
+            fs.unlinkSync(tmpValiCodeName)
+            fs.unlinkSync(tmpConvertValiCodeFile)
+            fs.unlinkSync(tmpCaptchaSolution + '.txt')
+
             valicode = valicode.replace(/\r?\n|\r/g, "");
 
             var valicodeNumber = +valicode
