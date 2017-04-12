@@ -68,7 +68,7 @@ var query = function(cookieString) {
                    query()
                 } else {
                   var {ClientName, used, validdate} = bodyParsed
-                  console.log(ClientName, used, validdate, bidno, fullidno)
+                  console.log(ClientName, "\t",  used, validdate, bidno, fullidno)
                 }
               })
             }
