@@ -30,4 +30,4 @@ is id, second column is bid number, e.g.
 ```
 
 run following commands:  
-cat <bidinfofile> | xargs -n2 bidq
+`cat <bidinfofile> | xargs -n2 bidq`
