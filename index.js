@@ -64,11 +64,16 @@ var query = function(cookieString) {
               };
               request.post(options, function (err, resp, body) {
                 var bodyParsed = JSON.parse(body)
-                if(bodyParsed.code != 0) {
-                   query()
-                } else {
+
+                if(bodyParsed.code === 4) {
+                  query()
+                } else if(bodyParsed.code === 2) {
+                  console.log(fullidno, bidno, "为以下情况：1. 为上一场拍卖会结束后的新增用户 2. 为已超过半年有效期的失效用户 3. 为已超过可投标次数的失效用户")
+                } else if(bodyParsed.code === 0) {
                   var {ClientName, used, validdate} = bodyParsed
                   console.log(ClientName, "\t",  used, validdate, bidno, fullidno)
+                } else {
+                  console.log(fullidno, bidno, "状态不明")
                 }
               })
             }
